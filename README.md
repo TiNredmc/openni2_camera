@@ -30,8 +30,18 @@ ros2 launch openni2_camera camera_only.launch.py
 If you want to get a PointCloud2, use:
 
 ```
-ros2 launch openni2_camera camera_with_cloud.launch.py
+ros2 launch openni2_camera camera_with_cloud_no_rgb.launch.py
 ```
+
+Remote PointCloud2 launch file for depth_image_proc  
+launch file is available [at my GitHub Gist.](https://gist.github.com/TiNredmc/20d633b6f41c02fcbebc6e1e08bf93f4)  
+
+```sudo mv``` the python launch file to ```/ros/<ros distro>/share/depth_image_proc/launch``` and run it with :
+
+```
+ros2 launch depth_image_proc point_cloud_xyz_xtion.launch.py
+```
+
 
 ## Migration from ROS1
 
