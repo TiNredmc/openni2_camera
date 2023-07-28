@@ -260,13 +260,18 @@ bool OpenNI2Device::hasDepthSensor() const
 void OpenNI2Device::startIRStream()
 {
   std::shared_ptr<openni::VideoStream> stream = getIRVideoStream();
-
+  
+  XnLedState ledState;
+  
   if (stream)
   {
     stream->setMirroringEnabled(false);
     stream->start();
     stream->addNewFrameListener(ir_frame_listener.get());
     ir_video_started_ = true;
+	ledState.nLedID = (uint16_t)1;// LED ID:1
+    ledState.nState = (uint16_t)1;// LED ID:1 on
+    const openni::Status rc = openni_device_->setProperty(XN_MODULE_PROPERTY_LED_STATE, ledState);// Turn LED ID:1 on
   }
 
 }
@@ -287,12 +292,17 @@ void OpenNI2Device::startDepthStream()
 {
   std::shared_ptr<openni::VideoStream> stream = getDepthVideoStream();
 
+  XnLedState ledState;
+
   if (stream)
   {
     stream->setMirroringEnabled(false);
     stream->start();
     stream->addNewFrameListener(depth_frame_listener.get());
     depth_video_started_ = true;
+	ledState.nLedID = (uint16_t)1;// LED ID:1
+    ledState.nState = (uint16_t)1;// LED ID:1 on
+    const openni::Status rc = openni_device_->setProperty(XN_MODULE_PROPERTY_LED_STATE, ledState);// Turn LED ID:1 on
   }
 }
 
@@ -305,6 +315,8 @@ void OpenNI2Device::stopAllStreams()
 
 void OpenNI2Device::stopIRStream()
 {
+	XnLedState ledState;
+	
   if (ir_video_stream_.get() != 0)
   {
     ir_video_started_ = false;
@@ -312,6 +324,10 @@ void OpenNI2Device::stopIRStream()
     ir_video_stream_->removeNewFrameListener(ir_frame_listener.get());
 
     ir_video_stream_->stop();
+	
+	ledState.nLedID = (uint16_t)1;// LED ID:1
+    ledState.nState = (uint16_t)0;// LED ID:1 on
+    const openni::Status rc = openni_device_->setProperty(XN_MODULE_PROPERTY_LED_STATE, ledState);// Turn LED ID:1 on
   }
 }
 void OpenNI2Device::stopColorStream()
@@ -327,6 +343,8 @@ void OpenNI2Device::stopColorStream()
 }
 void OpenNI2Device::stopDepthStream()
 {
+  XnLedState ledState;	
+	
   if (depth_video_stream_.get() != 0)
   {
     depth_video_started_ = false;
@@ -334,6 +352,10 @@ void OpenNI2Device::stopDepthStream()
     depth_video_stream_->removeNewFrameListener(depth_frame_listener.get());
 
     depth_video_stream_->stop();
+	
+	ledState.nLedID = (uint16_t)1;// LED ID:1
+    ledState.nState = (uint16_t)0;// LED ID:1 on
+    const openni::Status rc = openni_device_->setProperty(XN_MODULE_PROPERTY_LED_STATE, ledState);// Turn LED ID:1 on
   }
 }
 
