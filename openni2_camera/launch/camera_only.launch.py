@@ -52,7 +52,7 @@ def generate_launch_description():
                     package='openni2_camera',
                     plugin='openni2_wrapper::OpenNI2Driver',
                     name='driver',
-                    parameters=[{'depth_registration': True},
+                    parameters=[{'depth_registration': False},
                                 {'use_device_time': True}],
                     namespace=namespace,
                 ),
